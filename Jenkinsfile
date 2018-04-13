@@ -3,7 +3,7 @@ node {
     def registry="scm.nicezhuanye.com:6555"
     def registryWithScheme="https://"+registry
 
-    def imageBaseName="schoolresourceevaluation"
+    def imageBaseName="design_pattern"
     def imageFullName=registry+"/"+imageBaseName+":${env.BUILD_ID}"
     def imageFullNameLatest=registry+"/"+imageBaseName+":latest"
 
@@ -30,7 +30,7 @@ node {
           maven:'InstalledMaven',
           globalMavenSettingsConfig: '56ecb4c7-2efd-496d-949d-9209eee1c6a6',
           ) {
-            sh "mvn"
+            sh "mvn clean deploy"
         }
     }
 
