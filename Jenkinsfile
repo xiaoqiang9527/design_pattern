@@ -30,7 +30,7 @@ node {
           maven:'InstalledMaven',
           globalMavenSettingsConfig: '56ecb4c7-2efd-496d-949d-9209eee1c6a6',
           ) {
-            sh "mvn clean package"
+            sh "mvn clean package -DsipTests -U"
         }
     }
 
