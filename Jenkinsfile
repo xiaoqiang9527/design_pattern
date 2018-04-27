@@ -49,4 +49,14 @@ node {
         sh "docker push ${imageFullName}"
         sh "docker push ${imageFullNameLatest}"
     }
+	
+	stage('Upload ftp'){
+        ftpPublisher alwaysPublishFromMaster: false, continueOnError: false, failOnError: false,
+            publishers: [[configName: 'ftpserver', transfers: [[asciiMode: false,
+            cleanRemote: false, excludes: '', flatten: false, makeEmptyDirs: false,
+            noDefaultExcludes: false, patternSeparator: '[, ]+',
+            remoteDirectory: "/${env.BRANCH_NAME}/${imageBaseName}",
+            remoteDirectorySDF: false, removePrefix: 'project/', sourceFiles: 'project/*.zip']],
+            usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true]]
+    }
 }
