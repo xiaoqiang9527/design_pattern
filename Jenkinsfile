@@ -30,7 +30,7 @@ node {
           maven:'InstalledMaven',
           globalMavenSettingsConfig: '56ecb4c7-2efd-496d-949d-9209eee1c6a6',
           ) {
-            sh "mvn clean package -DskipTests"
+            sh "mvn clean package"
         }
     }
 
@@ -41,22 +41,13 @@ node {
           sh "docker tag ${imageFullName} ${imageFullNameLatest}"
         }
     }
-
-    stage('Test image') {
-    }
-
-    stage('Push image') 
-        sh "docker push ${imageFullName}"
-        sh "docker push ${imageFullNameLatest}"
-    }
 	
-	stage('Upload ftp'){
-        ftpPublisher alwaysPublishFromMaster: false, continueOnError: false, failOnError: false,
-            publishers: [[configName: 'ftpserver', transfers: [[asciiMode: false,
-            cleanRemote: false, excludes: '', flatten: false, makeEmptyDirs: false,
-            noDefaultExcludes: false, patternSeparator: '[, ]+',
-            remoteDirectory: "/${env.BRANCH_NAME}/${imageBaseName}",
-            remoteDirectorySDF: false, removePrefix: 'project/', sourceFiles: 'project/*.zip']],
-            usePromotionTimestamp: false, useWorkspaceInPromotion: false, verbose: true]]
+	stage('Build image') {
+        sh "cp  ${dockerDir}/"
+        docker.withRegistry(registryWithScheme, 'jenkinsAtHQJLbitbucket') {
+          sh "docker build ${dockerDir} -t ${imageFullName}"
+          sh "docker tag ${imageFullName} ${imageFullNameLatest}"
+        }
     }
+
 }
