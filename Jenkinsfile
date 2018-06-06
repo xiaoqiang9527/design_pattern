@@ -30,12 +30,12 @@ node {
           maven:'InstalledMaven',
           globalMavenSettingsConfig: '56ecb4c7-2efd-496d-949d-9209eee1c6a6',
           ) {
-            sh "mvn clean package -DsipTests -U"
+            sh "mvn clean package"
         }
     }
 
     stage('Build image') {
-        sh "cp target/*.war ${dockerDir}/"
+        sh "cp  ${dockerDir}/"
         docker.withRegistry(registryWithScheme, 'jenkinsAtHQJLbitbucket') {
           sh "docker build ${dockerDir} -t ${imageFullName}"
           sh "docker tag ${imageFullName} ${imageFullNameLatest}"
