@@ -42,11 +42,4 @@ node {
         }
     }
 
-    stage('Test image') {
-    }
-
-    stage('Push image') {
-        sh "docker push ${imageFullName}"
-        sh "docker push ${imageFullNameLatest}"
-    }
 }
