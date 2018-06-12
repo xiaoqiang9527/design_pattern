@@ -33,7 +33,6 @@ node {
             sh "mvn clean package"
         }
     }
-<<<<<<< HEAD
 
     stage('Build image') {
         sh "cp  ${dockerDir}/"
@@ -42,6 +41,4 @@ node {
           sh "docker tag ${imageFullName} ${imageFullNameLatest}"
         }
     }
-=======
->>>>>>> integration3.5
 }
