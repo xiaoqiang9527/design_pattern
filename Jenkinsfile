@@ -49,4 +49,12 @@ node {
           sh "docker tag ${imageFullName} ${imageFullNameLatest}"
         }
     }
+	
+	stage('send ftp') {
+        sh "cp  ${dockerDir}/"
+        docker.withRegistry(registryWithScheme, 'jenkinsAtHQJLbitbucket') {
+          sh "docker build ${dockerDir} -t ${imageFullName}"
+          sh "docker tag ${imageFullName} ${imageFullNameLatest}"
+        }
+    }
 }
